@@ -1,6 +1,8 @@
 // import { useState } from "react";
 import css from "./App.module.css";
-import "./App.css";
+
+// useDebouncedCallback;
+// loader, message , errir -
 
 export default function App() {
   return (
@@ -9,7 +11,7 @@ export default function App() {
         {/* Компонет NoteList  */}
         {/* Компонент SearchBox */}
         {/* Пагінація */}
-        {/* Кнопка створення нотатки */}
+        <button className={css.button}>Create note +</button>
       </header>
     </div>
   );
