@@ -39,13 +39,13 @@ export default function NoteForm({ close }: NoteFormProps) {
 
   const NoteFormSchema = Yup.object().shape({
     title: Yup.string()
-      .min(2, "Title must be at least 2 characters")
-      .max(30, "Title is too long")
+      .min(3, "Title must be at least 3 characters")
+      .max(50, "Title is too long")
       .required("Title is required"),
     content: Yup.string()
-      .min(2, "Content must be at least 2 characters")
-      .max(300, "Content is too long")
+      .max(500, "Content is too long")
       .required("Content is required"),
+    tag: Yup.string().required("Tag is required"),
   });
 
   return (
