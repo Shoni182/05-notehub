@@ -1,14 +1,8 @@
-// #region // Tasks
-// useDebouncedCallback;
-// loader, message , errir -
-
-// #endregion
-
 //: Libraries
 import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
-// import ReactPaginate from "react-paginate";
+import { toast, Toaster } from "react-hot-toast";
 
 //: Components
 import css from "./App.module.css";
@@ -64,8 +58,9 @@ export default function App() {
           </Modal>
         )}
       </header>
-      {isLoading && <p>Is Loading</p>}
-      {isError && <p>Is Error</p>}
+      {isLoading && <strong>Завантаження...</strong>}
+      {isError && toast.error("Щось пішло не так!")}
+      <Toaster />
       {data?.notes && <NoteList notes={data.notes} />}
     </div>
   );
