@@ -60,7 +60,7 @@ export default function App() {
 
         {isModalOpen && (
           <Modal>
-            <NoteForm onClose={closeModal} />
+            <NoteForm close={closeModal} />
           </Modal>
         )}
       </header>
