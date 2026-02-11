@@ -18,14 +18,16 @@ export default function NoteForm({ close }: NoteFormProps) {
   const handleSubmit = (values: NewNote, actions: FormikHelpers<NewNote>) => {
     actions.resetForm();
     mutate(values);
-    close();
   };
 
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (noteData: NewNote) => createNote(noteData),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notes"] }),
+    onSuccess: () => (
+      queryClient.invalidateQueries({ queryKey: ["notes"] }),
+      close()
+    ),
   });
 
   const NoteFormSchema = Yup.object().shape({
@@ -33,9 +35,7 @@ export default function NoteForm({ close }: NoteFormProps) {
       .min(3, "Title must be at least 3 characters")
       .max(50, "Title is too long")
       .required("Title is required"),
-    content: Yup.string()
-      .max(500, "Content is too long")
-      .required("Content is required"),
+    content: Yup.string().max(500, "Content is too long"),
     tag: Yup.string().required("Tag is required"),
   });
 
@@ -49,7 +49,7 @@ export default function NoteForm({ close }: NoteFormProps) {
         <div className={css.formGroup}>
           <label htmlFor="title">Title</label>
           <Field id="title" type="text" name="title" className={css.input} />
-          <ErrorMessage name="title" className={css.error} />
+          <ErrorMessage component="span" name="title" className={css.error} />
         </div>
 
         <div className={css.formGroup}>
@@ -61,7 +61,7 @@ export default function NoteForm({ close }: NoteFormProps) {
             rows={8}
             className={css.textarea}
           />
-          <ErrorMessage name="content" className={css.error} />
+          <ErrorMessage component="span" name="content" className={css.error} />
         </div>
 
         <div className={css.formGroup}>
@@ -73,7 +73,7 @@ export default function NoteForm({ close }: NoteFormProps) {
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
-          <ErrorMessage name="tag" className={css.error} />
+          <ErrorMessage component="span" name="tag" className={css.error} />
         </div>
 
         <div className={css.actions}>
