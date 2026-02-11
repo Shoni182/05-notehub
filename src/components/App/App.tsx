@@ -27,6 +27,11 @@ export default function App() {
 
   const debaucedSetSearchText = useDebouncedCallback(setSearchText, 300);
 
+  const handleSearch = (value: string) => {
+    setCurrentPage(1);
+    debaucedSetSearchText(value);
+  };
+
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage, perPage, searchText],
     queryFn: () => fetchNotes(currentPage, perPage, searchText),
@@ -38,7 +43,7 @@ export default function App() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox text={searchText} onSearch={debaucedSetSearchText} />
+        <SearchBox text={searchText} onSearch={handleSearch} />
 
         {isSuccess && totalPages > 1 && (
           <Pagination
@@ -58,7 +63,7 @@ export default function App() {
           </Modal>
         )}
       </header>
-      {isLoading && <strong>Завантаження...</strong>}
+      {isLoading && <strong>Завантаження</strong>}
       {isError && toast.error("Щось пішло не так!")}
       <Toaster />
       {data?.notes && <NoteList notes={data.notes} />}
