@@ -8,6 +8,12 @@ interface ModalProps {
 }
 
 export default function Modal({ children, close }: ModalProps) {
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      close();
+    }
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -23,8 +29,14 @@ export default function Modal({ children, close }: ModalProps) {
       document.body.style.overflow = "";
     };
   }, [close]);
+
   return createPortal(
-    <div className={css.backdrop} role="dialog" aria-modal="true">
+    <div
+      className={css.backdrop}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleBackdropClick}
+    >
       <div className={css.modal}>{children}</div>
     </div>,
     document.getElementById("modal-root") as HTMLDivElement,
